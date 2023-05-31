@@ -76,7 +76,9 @@
     }
 
     #imagen {
-      display: none;
+      display: block;
+      width: 100%;
+      height: auto;
       margin-top: 20px;
     }
   </style>
@@ -94,11 +96,25 @@
     <div id="output-section">
       <h2>Texto encriptado:</h2>
       <p id="textoEncriptado"></p>
-      <img id="imagen" src="imagenes/imagen.png"/>
+      <img id="imagen" src="imagenes/imagen.png" alt="Imagen" />
     </div>
   </div>
 
   <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      mostrarImagen();
+    });
+
+    function mostrarImagen() {
+      var textoEncriptado = document.getElementById("textoEncriptado").innerHTML;
+
+      if (textoEncriptado === "") {
+        document.getElementById("imagen").style.display = "block";
+      } else {
+        document.getElementById("imagen").style.display = "none";
+      }
+    }
+
     function encriptarTexto() {
       var texto = document.getElementById("inputTexto").value;
       var textoEncriptado = "";
@@ -110,7 +126,7 @@
       }
 
       document.getElementById("textoEncriptado").innerHTML = textoEncriptado;
-      document.getElementById("imagen").style.display = "none";
+      mostrarImagen();
       copiarTexto(textoEncriptado);
     }
 
@@ -125,9 +141,7 @@
       }
 
       document.getElementById("textoEncriptado").innerHTML = textoDesencriptado;
-      if (textoDesencriptado === "") {
-        document.getElementById("imagen").style.display = "block";
-      }
+      mostrarImagen();
       copiarTexto(textoDesencriptado);
     }
 
