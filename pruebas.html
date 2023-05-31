@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f5fc;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #container {
+      display: flex;
+      width: 100%;
+      max-width: 1200px;
+      padding: 20px;
+    }
+
+    #input-section {
+      flex-grow: 1;
+      background-color: #fff;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    #inputTexto {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      border: none;
+      background-color: #f3f5fc;
+      resize: none;
+    }
+
+    #button-section {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    #output-section {
+      width: 20%;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-left: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #textoEncriptado {
+      color: #000;
+      font-weight: normal;
+      margin-top: 10px;
+    }
+
+    #imagen {
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="input-section">
+      <h2>Ingrese el texto aquí:</h2>
+      <textarea id="inputTexto" rows="10"></textarea>
+      <div id="button-section">
+        <button onclick="encriptarTexto()">Encriptar y Copiar</button>
+        <button onclick="desencriptarTexto()">Desencriptar y Copiar</button>
+      </div>
+    </div>
+    <div id="output-section">
+      <h2>Texto encriptado:</h2>
+      <p id="textoEncriptado"></p>
+      <img id="imagen" src="imagenes/imagen.png"/>
+    </div>
+  </div>
+
+  <script>
+    function encriptarTexto() {
+      var texto = document.getElementById("inputTexto").value;
+      var textoEncriptado = "";
+
+      for (var i = 0; i < texto.length; i++) {
+        var caracter = texto[i].toLowerCase();
+        var caracterEncriptado = transformarCaracter(caracter);
+        textoEncriptado += caracterEncriptado;
+      }
+
+      document.getElementById("textoEncriptado").innerHTML = textoEncriptado;
+      document.getElementById("imagen").style.display = "none";
+      copiarTexto(textoEncriptado);
+    }
+
+    function desencriptarTexto() {
+      var textoEncriptado = document.getElementById("textoEncriptado").innerHTML;
+      var textoDesencriptado = "";
+
+      for (var i = 0; i < textoEncriptado.length; i += 4) {
+        var caracterEncriptado = textoEncriptado.substr(i, 4);
+        var caracter = transformarCaracterEncriptado(caracterEncriptado);
+        textoDesencriptado += caracter;
+      }
+
+      document.getElementById("textoEncriptado").innerHTML = textoDesencriptado;
+      if (textoDesencriptado === "") {
+        document.getElementById("imagen").style.display = "block";
+      }
+      copiarTexto(textoDesencriptado);
+    }
+
+    function transformarCaracter(caracter) {
+      switch (caracter) {
+        case 'e':
+          return 'enter';
+        case 'i':
+          return 'imes';
+        case 'a':
+          return 'ai';
+        case 'o':
+          return 'ober';
+        case 'u':
+          return 'ufat';
+        default:
+          return caracter;
+      }
+    }
+
+    function transformarCaracterEncriptado(caracterEncriptado) {
+      switch (caracterEncriptado) {
+        case 'enter':
+          return 'e';
+        case 'imes':
+          return 'i';
+        case 'ai':
+          return 'a';
+        case 'ober':
+          return 'o';
+        case 'ufat':
+          return 'u';
+        default:
+          return caracterEncriptado;
+      }
+    }
+
+    function copiarTexto(texto) {
+      navigator.clipboard.writeText(texto)
+        .then(function() {
+          alert("Texto copiado al portapapeles");
+        })
+        .catch(function(error) {
+          console.error("Error al copiar el texto:", error);
+        });
+    }
+  </script>
+</body>
+</html>
